@@ -1,7 +1,8 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { registerUser } from "../../lib/auth";
+import { registerUser } from "@/lib/auth";
+import Link from "next/link";
 
 export default function RegisterPage() {
   const [name, setName] = useState("");
@@ -14,27 +15,6 @@ export default function RegisterPage() {
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrors({});
-
-    // const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-    // const res = await fetch(`${apiUrl}/register`, {
-    //   method: "POST",
-    //   headers: { "Content-Type": "application/json" },
-    //   credentials: "include",
-    //   body: JSON.stringify({ name, email, password, password_confirmation }),
-    // });
-
-    // if (res.ok) {
-    //   router.push("/feeds");
-    // } else {
-    //   const data = await res.json();
-    //   if (data.errors) {
-    //     const mappedErrors: Record<string, string> = {};
-    //     Object.entries(data.errors).forEach(([field, messages]) => {
-    //       mappedErrors[field] = (messages as string[])[0];
-    //     });
-    //     setErrors(mappedErrors);
-    //   }
-    // }
 
     try {
       await registerUser({ name, email, password, password_confirmation });
@@ -95,6 +75,12 @@ export default function RegisterPage() {
         />
       </div>
       <button className="bg-green-600 text-white px-4 py-2">Sign Up</button>
+      <p className="mt-4 text-sm text-center">
+        Already have an account?{" "}
+        <Link href="/login" className="text-blue-600 hover:underline">
+          Log in
+        </Link>
+      </p>
     </form>
   );
 }

@@ -3,6 +3,7 @@ import { cookies } from "next/headers";
 import Pagination from "@/components/Pagination";
 
 type Article = {
+  id: string;
   title: string;
   description: string;
   url: string;
@@ -43,8 +44,8 @@ export default async function FeedsPage({
     <div>
       <h1 className="text-2xl font-bold mb-4">Your News Feed</h1>
       <ul className="space-y-4">
-        {articles.map((article, i) => (
-          <li key={i} className="border p-4 rounded-md">
+        {articles.map((article) => (
+          <li key={article.id} className="border p-4 rounded-md">
             <a
               href={article.url}
               target="_blank"

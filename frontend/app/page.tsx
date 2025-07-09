@@ -1,10 +1,11 @@
 // app/page.tsx
-import { ArticleCard } from "../components/ArticleCard";
+import { ArticleCard } from "@/components/ArticleCard";
 import qs from "query-string";
-import Pagination from "../components/Pagination";
-import Header from "../components/Header";
+import Pagination from "@/components/Pagination";
+import Header from "@/components/Header";
 
 export type Article = {
+  id: string;
   title: string;
   url: string;
   source: { name: string };
@@ -119,8 +120,8 @@ export default async function Home({
       </form>
 
       <div className="grid gap-4">
-        {articles.map((article: Article, i: number) => (
-          <ArticleCard key={i} article={article} />
+        {articles.map((article: Article) => (
+          <ArticleCard key={article.id} article={article} />
         ))}
       </div>
 

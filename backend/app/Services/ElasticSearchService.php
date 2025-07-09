@@ -143,8 +143,13 @@ class ElasticSearchService
         ];
 
         $result = $this->es->search($params);
+
+        $items = collect($result['hits']['hits'])->map(function ($hit) {
+            return array_merge(['id' => $hit['_id']], $hit['_source']);
+        })->toArray();
+
         return [
-            'articles' => collect($result['hits']['hits'])->pluck('_source')->toArray(),
+            $index => $items,
             'total' => $result['hits']['total']['value'] ?? 0,
         ];
     }
@@ -239,7 +244,7 @@ class ElasticSearchService
                         'aggs' => [
                             'author_name' => [
                                 'top_hits' => [
-                                    '_source' => ['author.name'],
+                                    '_source' => ['author.name', 'author.source_slug'],
                                     'size' => 1,
                                 ]
                             ]
@@ -250,9 +255,11 @@ class ElasticSearchService
         ]);
 
         return collect($response['aggregations']['authors']['buckets'])->map(function ($bucket) {
+            $hit = $bucket['author_name']['hits']['hits'][0]['_source']['author'] ?? [];
             return [
                 'slug' => $bucket['key'],
-                'name' => $bucket['author_name']['hits']['hits'][0]['_source']['author']['name'] ?? $bucket['key'],
+                'name' => $hit['name'] ?? $bucket['key'],
+                'source_slug' => $hit['source_slug'] ?? null,
             ];
         })->values();
     }

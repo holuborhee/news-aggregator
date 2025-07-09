@@ -30,7 +30,6 @@ class FeedController extends Controller
         $result = $this->elasticSearchService->search('articles', $query);
 
         return response()->json([
-            'pref' => $pref,
             'data' => $result['articles'],
             'meta' => [
                 'total' => $result['total'],
