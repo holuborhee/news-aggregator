@@ -50,8 +50,6 @@ export default async function PreferencesPage() {
     fetchMeta(),
   ]);
 
-  console.log(prefData.preferences);
-
   return (
     <PreferencesForm
       initialPreferences={prefData.preferences}
