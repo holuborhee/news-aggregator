@@ -134,4 +134,127 @@ class ElasticSearchService
             'body' => $article
         ]);
     }
+
+    public function search($index, $query)
+    {
+        $params = [
+            'index' => $index,
+            'body' => $query,
+        ];
+
+        $result = $this->es->search($params);
+        return [
+            'articles' => collect($result['hits']['hits'])->pluck('_source')->toArray(),
+            'total' => $result['hits']['total']['value'] ?? 0,
+        ];
+    }
+
+    public function get($index, $id)
+    {
+        try {
+            $response = $this->es->get([
+                'index' => $index,
+                'id' => $id,
+            ]);
+            return $response->asArray();
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+
+    public function getPreference($userId)
+    {
+        try {
+            $response = $this->es->get([
+                'index' => 'user_preferences',
+                'id'    => "user_{$userId}",
+            ]);
+
+            return $response['_source'] ?? null;
+
+        } catch (\Exception $e) {
+            return null; // not found or error
+        }
+    }
+
+    public function savePreference($userId, array $data)
+    {
+        return $this->es->index([
+            'index' => 'user_preferences',
+            'id'    => "user_{$userId}",
+            'body'  => [
+                'categories' => $data['categories'] ?? [],
+                'sources'    => $data['sources'] ?? [],
+                'authors'    => $data['authors'] ?? [],
+                'updated_at' => now()->toIso8601String(),
+            ]
+        ]);
+    }
+
+    public function getAllSources()
+    {
+        $response = $this->es->search([
+            'index' => 'articles',
+            'size'  => 0,
+            'body'  => [
+                'aggs' => [
+                    'sources' => [
+                        'terms' => [
+                            'field' => 'source.slug',
+                            'size'  => 1000,
+                        ],
+                        'aggs' => [
+                            'source_name' => [
+                                'top_hits' => [
+                                    '_source' => ['source.name'],
+                                    'size' => 1,
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ]);
+
+        return collect($response['aggregations']['sources']['buckets'])->map(function ($bucket) {
+            return [
+                'slug' => $bucket['key'],
+                'name' => $bucket['source_name']['hits']['hits'][0]['_source']['source']['name'] ?? $bucket['key'],
+            ];
+        })->values();
+    }
+
+    public function getAllAuthors()
+    {
+        $response = $this->es->search([
+            'index' => 'articles',
+            'size'  => 0,
+            'body'  => [
+                'aggs' => [
+                    'authors' => [
+                        'terms' => [
+                            'field' => 'author.slug',
+                            'size'  => 1000,
+                        ],
+                        'aggs' => [
+                            'author_name' => [
+                                'top_hits' => [
+                                    '_source' => ['author.name'],
+                                    'size' => 1,
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ]);
+
+        return collect($response['aggregations']['authors']['buckets'])->map(function ($bucket) {
+            return [
+                'slug' => $bucket['key'],
+                'name' => $bucket['author_name']['hits']['hits'][0]['_source']['author']['name'] ?? $bucket['key'],
+            ];
+        })->values();
+    }
+
 }
