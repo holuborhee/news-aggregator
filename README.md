@@ -155,10 +155,10 @@ Visit:
 
 ## ✅ Improvements To Be Made
 
-- [ ] ⏰ Improve placement of migration command for startup safety
+- [x] ⏰ Improve placement of migration command for startup safety
 - [ ] 🧰 Enhance Docker setup for separate **dev** and **prod** configs
 - [ ] ↺ Consider switching NewsAPI endpoint (`/top-headlines` vs `/everything`)
-- [ ] 🛠 Debug “no scheduled command is ready to run” issue
+- [ ] 🛠 Debug and fix scheduler not running
 - [ ] 🥞 Make scraping frequency configurable
 - [ ] 🔐 Switch from Laravel Sanctum to JWT auth for token interoperability
 - [ ] ⚡️ Cache frequent Elasticsearch responses
