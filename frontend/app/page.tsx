@@ -37,7 +37,7 @@ export default async function Home({
   const date = params?.date || "";
   const page = params?.page || "1";
 
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  const apiUrl = process.env.API_URL;
 
   const query = qs.stringify({ q: search, category, source, date, page });
   const [fetchArticle, fetchMetadata] = await Promise.all([

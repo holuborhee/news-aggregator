@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import PreferencesForm from "@/components/PreferencesForm";
 
 async function fetchPreferences(token: string) {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/preferences`, {
+  const res = await fetch(`${process.env.API_URL}/preferences`, {
     headers: { Authorization: `Bearer ${token}` },
     cache: "no-store",
   });
@@ -13,7 +13,7 @@ async function fetchPreferences(token: string) {
 }
 
 async function fetchMeta() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/metadata`, {
+  const res = await fetch(`${process.env.API_URL}/metadata`, {
     cache: "force-cache",
   });
   if (!res.ok) throw new Error("Failed to load meta");

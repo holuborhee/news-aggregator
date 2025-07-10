@@ -10,7 +10,7 @@ export async function POST(req: NextRequest) {
 
   const body = await req.json();
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/preferences`, {
+  const res = await fetch(`${process.env.API_URL}/preferences`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",

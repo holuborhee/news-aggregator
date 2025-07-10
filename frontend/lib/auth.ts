@@ -3,7 +3,7 @@
 import { cookies } from "next/headers";
 
 export async function loginUser(formData: { email: string; password: string }) {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/login`, {
+  const res = await fetch(`${process.env.API_URL}/login`, {
     method: "POST",
     body: JSON.stringify(formData),
     headers: {
@@ -33,7 +33,7 @@ export async function registerUser(formData: {
   password: string;
   password_confirmation: string;
 }) {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/register`, {
+  const res = await fetch(`${process.env.API_URL}/register`, {
     method: "POST",
     body: JSON.stringify(formData),
     headers: {
@@ -61,7 +61,7 @@ export async function logoutUser() {
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
 
-  await fetch(`${process.env.NEXT_PUBLIC_API_URL}/logout`, {
+  await fetch(`${process.env.API_URL}/logout`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${token}`,

@@ -24,14 +24,14 @@ type FeedsResponse = {
 export default async function FeedsPage({
   searchParams,
 }: {
-  searchParams: { page?: string };
+  searchParams: Promise<{ page?: string }>;
 }) {
   const params = await searchParams;
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
   const page = params.page || "1";
 
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  const apiUrl = process.env.API_URL;
 
   const res = await fetch(`${apiUrl}/feed?page=${page}`, {
     headers: { Authorization: `Bearer ${token}`, Accept: "application/json" },

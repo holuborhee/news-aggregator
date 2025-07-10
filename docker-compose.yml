@@ -30,6 +30,7 @@ services:
     #   - ./frontend:/app
     environment:
       - NEXT_PUBLIC_API_URL=http://localhost:8000/api/v1
+      - API_URL=http://laravel_app:8000/api/v1
     depends_on:
       - app
 
