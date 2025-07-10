@@ -28,8 +28,8 @@ WORKDIR /var/www
 # Copy code
 COPY . .
 
-# Install dependencies
-RUN composer install
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
 
 # Permissions
 RUN chown -R www-data:www-data /var/www \
@@ -37,4 +37,4 @@ RUN chown -R www-data:www-data /var/www \
 
 EXPOSE 8000
 
-CMD ["sh", "-c", "php artisan serve --host=0.0.0.0 --port=8000"]
+CMD ["entrypoint.sh"]
