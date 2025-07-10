@@ -7,15 +7,6 @@ services:
       - "8000:8000"
     volumes:
       - ./backend:/var/www
-    environment:
-      - APP_URL=http://localhost:8000
-      - DB_CONNECTION=mysql
-      - DB_HOST=db
-      - DB_PORT=3306
-      - DB_DATABASE=laravel
-      - DB_USERNAME=root
-      - DB_PASSWORD=root
-      - ELASTICSEARCH_HOST=http://elasticsearch:9200
     depends_on:
       - db
       - elasticsearch

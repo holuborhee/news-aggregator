@@ -23,16 +23,29 @@ git clone https://github.com/your-username/news-aggregator.git
 cd news-aggregator
 ```
 
-#### 2. Create `.env` files
+#### 2. Environment variables
 
-- `backend/.env` – Laravel environment file
-- `frontend/.env.local` – Next.js environment file
+✅ Defaults are already injected via `docker-compose.yml` for all services except for the backend service.
 
-✅ Some defaults are already injected via `docker-compose.yml`.
+#### Why is the Backend service handled differently?
 
-Sample for `backend/.env`:
+Managing the environment variables from `.env` file is best for the backend service, partly because of how Laravel handles environment config. It prioritizes the `.env` file and will only look elsewhere if the file doesn't exist. Also the `key:generate` command writes the generated key to `.env` file automatically. If `.env` is missing, it won’t write it anywhere, and Laravel will fail on encryption functions (e.g., auth, cookies).
+
+##### Setting `.env` for backend
+
+a. Run the command below to create your `.env` file
+
+```
+cp .env.example .env
+```
+
+b. Ensure to locate each of the key below in your `backend/.env` file and ensure their value matches the value here:
 
 ```env
+APP_NAME=NewsAggregator
+APP_ENV=local
+APP_KEY=
+APP_DEBUG=true
 APP_URL=http://localhost:8000
 DB_CONNECTION=mysql
 DB_HOST=db
@@ -40,10 +53,19 @@ DB_PORT=3306
 DB_DATABASE=laravel
 DB_USERNAME=root
 DB_PASSWORD=root
-ELASTICSEARCH_HOST=http://elasticsearch:9200
-NEWS_API_KEY=your_newsapi_key_here
 QUEUE_CONNECTION=sync
 ```
+
+`Make use of the exact values above unless you are sure of what you are doing`
+
+c. Finally, add these two variables to the file. This is where you use the api key you generated initially.
+
+```env
+ELASTICSEARCH_HOST=http://elasticsearch:9200
+NEWS_API_KEY={your_newsapi_key_here}
+```
+
+> NOTE: Unless you make any chnage to the docker settings and ports, you do not need to bother about envionment variables for all the services except the `laravel_app`. The defaults should work for all the services.
 
 ---
 
