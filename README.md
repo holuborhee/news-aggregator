@@ -63,7 +63,7 @@ c. Finally, add these two variables to the file. This is where you use the api k
 
 ```env
 ELASTICSEARCH_HOST=http://elasticsearch:9200
-NEWS_API_KEY={your_newsapi_key_here}
+NEWSAPI_KEY={your_newsapi_key_here}
 ```
 
 > NOTE: Unless you make any change to the docker settings and ports, you do not need to bother about envionment variables for all the services except the `laravel_app`. The defaults should work for all the services.
