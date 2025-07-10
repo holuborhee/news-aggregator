@@ -65,7 +65,7 @@ ELASTICSEARCH_HOST=http://elasticsearch:9200
 NEWS_API_KEY={your_newsapi_key_here}
 ```
 
-> NOTE: Unless you make any chnage to the docker settings and ports, you do not need to bother about envionment variables for all the services except the `laravel_app`. The defaults should work for all the services.
+> NOTE: Unless you make any change to the docker settings and ports, you do not need to bother about envionment variables for all the services except the `laravel_app`. The defaults should work for all the services.
 
 ---
 
@@ -131,17 +131,15 @@ Visit:
 
 ## 🚣 API Endpoints
 
-| Method | Endpoint                  | Description                              |
-| ------ | ------------------------- | ---------------------------------------- |
-| POST   | `/api/v1/register`        | Register new user                        |
-| POST   | `/api/v1/login`           | Login and receive token                  |
-| POST   | `/api/v1/logout`          | Logout and revoke token                  |
-| GET    | `/api/v1/preferences`     | Get current user preferences             |
-| POST   | `/api/v1/preferences`     | Update user preferences                  |
-| GET    | `/api/v1/feeds`           | Get personalized user feeds              |
-| GET    | `/api/v1/articles/search` | Search/filter articles                   |
-| GET    | `/api/v1/articles/{id}`   | Get single article details (if needed)   |
-| GET    | `/api/v1/meta`            | Get all categories, sources, and authors |
+| Method | Endpoint              | Description                              |
+| ------ | --------------------- | ---------------------------------------- |
+| POST   | `/api/v1/register`    | Register new user                        |
+| POST   | `/api/v1/login`       | Login and receive token                  |
+| GET    | `/api/v1/preferences` | Get current user preferences             |
+| PUT    | `/api/v1/preferences` | Update user preferences                  |
+| GET    | `/api/v1/feed`        | Get personalized user feeds              |
+| GET    | `/api/v1/articles`    | Search/filter articles                   |
+| GET    | `/api/v1/metadata`    | Get all categories, sources, and authors |
 
 ---
 
