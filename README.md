@@ -19,7 +19,7 @@ No native PHP/Node.js installation required — everything runs in **Docker**.
 #### 1. Clone the repo
 
 ```bash
-git clone https://github.com/your-username/news-aggregator.git
+git clone https://github.com/holuborhee/news-aggregator.git
 cd news-aggregator
 ```
 
@@ -36,6 +36,7 @@ Managing the environment variables from `.env` file is best for the backend serv
 a. Run the command below to create your `.env` file
 
 ```
+cd backend
 cp .env.example .env
 ```
 
@@ -71,20 +72,29 @@ NEWS_API_KEY={your_newsapi_key_here}
 
 ### 🐳 Run the App with Docker
 
+Navigate to the root directory of the app to run the following commands:
+
 ```bash
 docker-compose up --build
 ```
 
 Then run the following setup steps:
 
+1. Generate app key
+
 ```bash
-# Generate app key
 docker exec -it laravel_app php artisan key:generate
+```
 
-# Run migrations and seed categories
+2. Run migrations and seed categories
+
+```bash
 docker exec -it laravel_app php artisan migrate --seed --force
+```
 
-# Setup Elasticsearch indexes, scrape initial news, and setup schedule
+3. Setup Elasticsearch indexes, scrape initial news, and setup schedule
+
+```bash
 docker exec -it laravel_app php artisan app:setup-news-aggregator
 ```
 
